@@ -1,10 +1,24 @@
-VENV = venv
-PY = python3
-PYTHON:=$(VENV)/bin/python3
-PYTHON_CHECK:=$(shell command -v python3 2> /dev/null)
-BIN=$(VENV)/bin
-APPNAME:=app
-REQUIREMENTS:=./$(APPNAME)/requirements.txt
+VENV=venv
+APPNAME=app
+REQUIREMENTS=./$(APPNAME)/requirements.txt
+
+
+## Make it work on multiple systems
+ifeq ($(OS),Windows_NT)
+	BIN=$(VENV)/Scripts
+	PYTHON=$(VENV)/Scripts/python.exe
+	PY=python.exe
+	PIP=pip.exe
+else
+	UNAME_S := $(shell uname -s)
+	ifeq ($(UNAME_S),Linux)
+		PYTHON=$(VENV)/bin/python
+		BIN=$(VENV)/bin
+		PY=python3
+		PYTHON_CHECK:=$(shell command -v python3 2> /dev/null)
+		PIP=pip
+	endif
+endif
 
 .DEFAULT_GOAL = help
 help: ##		Displays this message
@@ -21,25 +35,18 @@ ifndef PYTHON_CHECK
 endif
 
 
-# make it work on windows too
-ifeq ($(OS), Windows_NT)
-	BIN=$(VENV)/Scripts
-	PY=python
-endif
-
-
-all: lint test
+all: install lint 
 
 $(VENV): $(REQUIREMENTS)
 	$(PY) -m venv $(VENV)
-	$(BIN)/pip install --upgrade pip
+	$(BIN)/$(PIP) install --upgrade pip
 
 install: $(VENV) ## Install project dependencies
-	$(BIN)/pip install -r $(REQUIREMENTS)
+	$(BIN)/$(PIP) install -r $(REQUIREMENTS)
 	@. $(BIN)/activate
 
 update: $(VENV) ## Update project dependencies
-	$(BIN)/pip install --upgrade -r $(REQUIREMENTS)
+	$(BIN)/$(PIP) install --upgrade -r $(REQUIREMENTS)
 
 activate: ## Activate the virtual environment
 	@. $(BIN)/activate
@@ -55,11 +62,16 @@ update-req:
 run:
 	$(BIN)/uvicorn main:$(APPNAME) --app-dir $(APPNAME) --reload 
 
-# $(VENV): $(REQUIREMENTS)
-# 	$(PY) -m venv $(VENV)
-# 	$(BIN)/pip install --upgrade -r $(REQUIREMENTS)
-# 	$(BIN)/pip install -e .
-# 	touch $(VENV)
+
+# check-deps:  ## Check new versions and update deps
+# 	$(PYTHON) -m pur -r requirements-dev.txt -d
+
+# update-deps:  ## Check new versions and update deps
+# 	$(PYTHON) -m pur -r requirements-dev.txt
+
+# install-deps:  ## Install dependencies
+# 	$(PYTHON) -m pip install -r requirements-dev.txt
+
 
 lint: isort black mypy flake8 bandit
 
