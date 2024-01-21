@@ -16,6 +16,8 @@ else
 		BIN=$(VENV)/bin
 		PY=python3
 		PYTHON_CHECK:=$(shell command -v python3 2> /dev/null)
+		VIRTUALENV:=$(shell command -v virtualenv 2> /dev/null)
+		PIP_CHECK:= $(shell command -v pip 2> /dev/null)
 		PIP=pip
 	endif
 endif
@@ -33,6 +35,12 @@ ifndef PYTHON_CHECK
 	@echo "Please install python 3.6 or higher"
 	@echo "Make sure that python3 executable is defined in the PATH variable"
 endif
+ifndef PIP_CHECK
+	@echo "pip is not available, please install it.."
+endif
+ifndef VIRTUALENV
+	@echo "virtualenv is not available, please install it.."
+endif
 
 
 all: install lint 
@@ -43,10 +51,11 @@ $(VENV): $(REQUIREMENTS)
 
 install: $(VENV) ## Install project dependencies
 	$(BIN)/$(PIP) install -r $(REQUIREMENTS)
-	@. $(BIN)/activate
+
 
 update: $(VENV) ## Update project dependencies
 	$(BIN)/$(PIP) install --upgrade -r $(REQUIREMENTS)
+
 
 activate: ## Activate the virtual environment
 	@. $(BIN)/activate
