@@ -1,6 +1,7 @@
 VENV=venv
 APPNAME=app
 REQUIREMENTS=./$(APPNAME)/requirements.txt
+REQUIREMENTS-DEV=./$(APPNAME)/requirements-dev.txt
 
 
 ## Make it work on multiple systems
@@ -54,7 +55,7 @@ install: $(VENV) ## Install project dependencies
 
 
 update: $(VENV) ## Update project dependencies
-	$(BIN)/$(PIP) install --upgrade -r $(REQUIREMENTS)
+	$(BIN)/$(PIP) install --upgrade -r $(REQUIREMENTS-DEV)
 
 
 activate: ## Activate the virtual environment
@@ -65,7 +66,7 @@ clean:
 	find . -type f -name *.pyc -delete
 	find . -type d -name __pycache__ -delete
 
-update-req:
+freeze:
 	$(BIN)/pip freeze > $(REQUIREMENTS)
 
 run:
