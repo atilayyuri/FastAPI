@@ -1,10 +1,10 @@
 from fastapi import FastAPI
 
-app = FastAPI()
+app = FastAPI(title="Blog", version="0.1.0")
 
 
 # gives a route for a get request
 @app.get("/")
 async def root():
-    await foo()
-    return {"Hello": "World"}
+    
+    return {"msg": "Hello FastAPI"}

@@ -1,5 +1,5 @@
 VENV=venv
-APPNAME=app
+APPNAME=backend
 REQUIREMENTS=./$(APPNAME)/requirements.txt
 REQUIREMENTS-DEV=./$(APPNAME)/requirements-dev.txt
 
@@ -70,7 +70,7 @@ freeze:
 	$(BIN)/pip freeze > $(REQUIREMENTS)
 
 run:
-	$(BIN)/uvicorn main:$(APPNAME) --app-dir $(APPNAME) --reload 
+	$(BIN)/uvicorn main:app --app-dir $(APPNAME) --reload 
 
 
 # check-deps:  ## Check new versions and update deps
