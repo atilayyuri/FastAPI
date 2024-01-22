@@ -66,7 +66,7 @@ clean-w:
 	rmdir /s /q .\$(VENV)\
 
 freeze:
-	$(BIN)/pip freeze > $(REQUIREMENTS)
+	$(PYTHON) -m pip freeze > $(REQUIREMENTS)
 
 run:
 	$(BIN)/uvicorn main:app --app-dir $(APPNAME) --reload 
