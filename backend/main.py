@@ -1,11 +1,31 @@
 from fastapi import FastAPI
-from core.settings import settings
+from core.config import settings
 
-app = FastAPI(title=settings.PROJECT_TITLE, version=settings.PROJECT_VERSION)
+from db.session import engine
+from db.base_class import Base
 
+def create_tables():
+    Base.metadata.create_all(bind=engine)
+
+def start_application():
+    app = FastAPI(title=settings.PROJECT_TITLE, version=settings.PROJECT_VERSION)
+    create_tables()
+    return app
+
+app = start_application()
 
 # gives a route for a get request
 @app.get("/")
 async def root():
     
     return {"msg": "Hello FastAPI"}
+
+
+
+# SYNCHRONOUS
+
+# You are in a queue to get a movie ticket. You cannot get one until everybody in front of you gets one, and the same applies to the people queued behind you.
+
+# ASYNCHRONOUS
+
+# You are in a restaurant with many other people. You order your food. Other people can also order their food, they don't have to wait for your food to be cooked and served to you before they can order. In the kitchen restaurant workers are continuously cooking, serving, and taking orders. People will get their food served as soon as it is cooked.
