@@ -3,23 +3,28 @@ APPNAME=backend
 REQUIREMENTS=./$(APPNAME)/requirements.txt
 REQUIREMENTS-DEV=./$(APPNAME)/requirements-dev.txt
 
+EXECUTABLES = python virtualenv
+
 
 ## Make it work on multiple systems
 ifeq ($(OS),Windows_NT)
-	BIN=$(VENV)/Scripts
-	PYTHON=$(VENV)/Scripts/python.exe
+	SHELL:= pwsh -NoProfile
+	BIN=.\$(VENV)\Scripts
+	PYTHON=.\$(VENV)\Scripts\python.exe
 	PY=python.exe
 	PIP=pip.exe
+	K := $(foreach exec,$(EXECUTABLES),\
+        $(if $(shell where $(exec)),some string,$(error "No $(exec) in PATH")))
+
 else
 	UNAME_S := $(shell uname -s)
 	ifeq ($(UNAME_S),Linux)
 		PYTHON=$(VENV)/bin/python
 		BIN=$(VENV)/bin
 		PY=python3
-		PYTHON_CHECK:=$(shell command -v python3 2> /dev/null)
-		VIRTUALENV:=$(shell command -v virtualenv 2> /dev/null)
-		PIP_CHECK:= $(shell command -v pip 2> /dev/null)
 		PIP=pip
+		K := $(foreach exec,$(EXECUTABLES),\
+        $(if $(shell command -v $(exec)),some string,$(error "No $(exec) in PATH")))
 	endif
 endif
 
@@ -31,27 +36,17 @@ help: ##		Displays this message
 	@echo "--------------------------------------------------------------"
 	@echo "--------------------------------------------------------------"
 
-check-setup: ##		Checks local installations to develop, build and deploy the application
-ifndef PYTHON_CHECK
-	@echo "Please install python 3.6 or higher"
-	@echo "Make sure that python3 executable is defined in the PATH variable"
-endif
-ifndef PIP_CHECK
-	@echo "pip is not available, please install it.."
-endif
-ifndef VIRTUALENV
-	@echo "virtualenv is not available, please install it.."
-endif
-
 
 all: install lint 
 
 $(VENV): $(REQUIREMENTS)
 	$(PY) -m venv $(VENV)
-	$(BIN)/$(PIP) install --upgrade pip
+	$(PYTHON) -m pip install --upgrade pip
+##	$(BIN)/$(PIP) install --upgrade pip
 
 install: $(VENV) ## Install project dependencies
-	$(BIN)/$(PIP) install -r $(REQUIREMENTS)
+	$(PYTHON) -m pip install -r $(REQUIREMENTS)
+##	$(BIN)/$(PIP) install -r $(REQUIREMENTS)
 
 
 update: $(VENV) ## Update project dependencies
@@ -65,6 +60,9 @@ clean:
 	rm -rf $(VENV)
 	find . -type f -name *.pyc -delete
 	find . -type d -name __pycache__ -delete
+
+clean-w:
+	rmdir /s /q .\$(VENV)\
 
 freeze:
 	$(BIN)/pip freeze > $(REQUIREMENTS)
