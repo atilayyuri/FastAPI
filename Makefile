@@ -50,7 +50,8 @@ install: $(VENV) ## Install project dependencies
 
 
 update: $(VENV) ## Update project dependencies
-	$(BIN)/$(PIP) install --upgrade -r $(REQUIREMENTS-DEV)
+	$(PYTHON) -m pip install --upgrade -r $(REQUIREMENTS-DEV)
+##	$(BIN)/$(PIP) install --upgrade -r $(REQUIREMENTS-DEV)
 
 
 activate: ## Activate the virtual environment
