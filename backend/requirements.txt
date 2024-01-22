@@ -52,7 +52,7 @@ rich==13.7.0
 rsa==4.7.2
 six==1.15.0
 smmap==5.0.1
-SQLAlchemy==1.4.11
+SQLAlchemy==2.0.13
 starlette==0.13.6
 stevedore==5.1.0
 toml==0.10.2
@@ -60,5 +60,5 @@ tomli==2.0.1
 typing_extensions==4.9.0
 urllib3==1.26.4
 uvicorn==0.26.0
-psycopg2==2.8.6
-cffi==1.14.5
+psycopg2==2.9.9
+cffi==1.16.0
