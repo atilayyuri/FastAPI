@@ -2,6 +2,8 @@ from db.base_class import Base
 from sqlalchemy import Column, Integer, String, Text, DateTime, Boolean, ForeignKey
 from sqlalchemy.orm import relationship
 
+from .blog import Blog
+
 
 class User(Base):
     id = Column(Integer, primary_key=True, index=True)
