@@ -2,7 +2,12 @@ import os
 from dotenv import load_dotenv
 
 from pathlib import Path
-env_path = Path('.') / '.env'
+if Path('.env').exists():
+    env_path = Path('.env')
+else:
+    env_path = Path('backend') / '.env'
+
+print("env_path: ", env_path)
 load_dotenv(dotenv_path=env_path)
 
 class Settings:
