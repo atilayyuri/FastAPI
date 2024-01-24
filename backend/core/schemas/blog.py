@@ -9,17 +9,17 @@ class CreateBlog(BaseModel):
     content: Optional[str] = None
 
     @root_validator(pre=True)
-    def generate_slug(cls, values):
+    def _generate_slug(cls, values):
 
         if 'title' in values:
-            values['slug'] = values['title'].replace(' ', '-').lower()
+            values['slug'] = values.get('title').replace(' ', '-').lower()
         return values
 
 
 class ShowBlog(BaseModel):
     title: str
     content: Optional[str] 
-    create_at: datetime
+    created_at: datetime
 
     class Config():
         from_attributes = True
