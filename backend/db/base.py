@@ -1,3 +1,3 @@
 from db.base_class import Base
-from db.models.user import User
-from db.models.blog import Blog
+from core.models.user import User
+from core.models.blog import Blog
