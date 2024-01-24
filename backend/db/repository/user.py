@@ -4,11 +4,12 @@ from db.models.user import User
 from core.hashing import Hasher
 
 def create_new_user(user: UserCreate, db: Session):
-    user = User(email=user.email, 
-                hashed_password=Hasher.get_password_hash(user.password),
+    new_user = User(
+                email=user.email, 
+                password=Hasher.get_password_hash(user.password),
                 is_active=True,
-                is_superuser=False)
-    db.add(user)
+                )
+    db.add(new_user)
     db.commit()
-    db.refresh(user)
+    db.refresh(new_user)
     return user
