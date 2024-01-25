@@ -106,7 +106,7 @@ bandit:
 
 .PHONY: test
 test:
-	$(BIN)/pytest
+	$(PYTHON) -m pytest
 
 .PHONY: release
 release:
