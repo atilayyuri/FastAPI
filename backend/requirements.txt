@@ -20,7 +20,9 @@ flake8==7.0.0
 gitdb==4.0.11
 GitPython==3.1.41
 greenlet==3.0.3
-h11==0.12.0
+h11==0.14.0
+httpcore==1.0.2
+httpx==0.26.0
 idna==2.10
 iniconfig==1.1.1
 isort==5.13.2
@@ -40,7 +42,7 @@ platformdirs==4.1.0
 pluggy==0.13.1
 psycopg2==2.9.9
 psycopg2-binary==2.9.9
-py==1.10.0
+py==1.11.0
 pyasn1==0.4.8
 pycodestyle==2.11.1
 pycparser==2.20
@@ -49,7 +51,7 @@ pydantic_core==2.14.6
 pyflakes==3.2.0
 Pygments==2.17.2
 pyparsing==2.4.7
-pytest==6.2.3
+pytest==7.4.0
 pytest-cov==2.11.1
 python-dotenv==0.17.0
 python-jose==3.2.0
