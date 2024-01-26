@@ -11,7 +11,7 @@ def include_router(app):
 def create_tables():
     Base.metadata.create_all(bind=engine)
 
-def start_application():
+def start_application() -> FastAPI:
     app = FastAPI(title=settings.PROJECT_TITLE, version=settings.PROJECT_VERSION)
     include_router(app)
     create_tables()
@@ -21,7 +21,7 @@ app = start_application()
 
 # gives a route for a get request
 @app.get("/")
-async def root():
+async def root() -> dict[str, str]:
     
     return {"msg": "Hello FastAPI"}
 

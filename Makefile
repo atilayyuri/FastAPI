@@ -1,5 +1,6 @@
 VENV=venv
 APPNAME=backend
+PORT=8080
 REQUIREMENTS=./$(APPNAME)/requirements.txt
 REQUIREMENTS-DEV=./$(APPNAME)/requirements-dev.txt
 
@@ -69,7 +70,7 @@ freeze:
 	$(PYTHON) -m pip freeze > $(REQUIREMENTS)
 
 run:
-	$(BIN)/uvicorn main:app --app-dir $(APPNAME) --reload 
+	$(BIN)/uvicorn main:app --app-dir $(APPNAME) --reload --port $(PORT)
 
 
 # check-deps:  ## Check new versions and update deps

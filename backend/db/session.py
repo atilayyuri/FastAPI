@@ -13,8 +13,8 @@ engine = create_engine(SQLALCHEMY_DATABASE_URL)
 SESSIONLOCAL = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 def get_db() -> Generator:
+    db = SESSIONLOCAL()
     try:
-        db = SESSIONLOCAL()
         yield db
     finally:
         db.close()
